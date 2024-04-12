@@ -1,0 +1,21 @@
+{
+  "name": "@neo-saas/api",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@neo-saas/auth": "workspace:*"
+  },
+  "devDependencies": {
+    "@neo-saas/eslint-config": "workspace:*",
+    "@neo-saas/prettier": "workspace:*",
+    "@neo-saas/tsconfig": "workspace:*",
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.2"
+  },
+  "prettier": "@neo-saas/prettier",
+  "eslintConfig": {
+    "extends": "@neo-saas/eslint-config/node"
+  }
+}

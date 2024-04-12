@@ -5,12 +5,17 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "devDependencies": {
+    "@neo-saas/eslint-config": "workspace:*",
     "@neo-saas/prettier": "workspace:*",
-    "@neo-saas/tsconfig": "workspace:*",
-    "@neo-saas/eslint-config": "workspace:*"
+    "@neo-saas/tsconfig": "workspace:*"
   },
   "eslintConfig": {
-    "extends": ["@neo-saas/eslint-config/library"]
+    "extends": [
+      "@neo-saas/eslint-config/library"
+    ]
   },
-  "prettier": "@neo-saas/prettier"
+  "prettier": "@neo-saas/prettier",
+  "dependencies": {
+    "@casl/ability": "^6.7.1"
+  }
 }
