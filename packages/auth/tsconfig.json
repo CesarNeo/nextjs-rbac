@@ -1,0 +1,4 @@
+{
+  "extends": "@neo-saas/tsconfig/library.json",
+  "include": ["src/**/*"]
+}

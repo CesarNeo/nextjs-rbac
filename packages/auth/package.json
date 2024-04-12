@@ -1,0 +1,16 @@
+{
+  "name": "@neo-saas/auth",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@neo-saas/prettier": "workspace:*",
+    "@neo-saas/tsconfig": "workspace:*",
+    "@neo-saas/eslint-config": "workspace:*"
+  },
+  "eslintConfig": {
+    "extends": ["@neo-saas/eslint-config/library"]
+  },
+  "prettier": "@neo-saas/prettier"
+}
