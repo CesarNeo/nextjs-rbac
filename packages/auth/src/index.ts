@@ -6,7 +6,7 @@ import {
 } from '@casl/ability'
 import { z } from 'zod'
 
-import { User } from './models/user'
+import { User } from './models'
 import { permissions } from './permissions'
 import { billingSubject } from './subjects/billing'
 import { inviteSubject } from './subjects/invite'

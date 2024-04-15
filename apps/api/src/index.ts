@@ -1,11 +1,9 @@
 import { defineAbilityFor } from '@neo-saas/auth'
+import { projectSchema } from '@neo-saas/auth/src/models'
 
-const ability = defineAbilityFor({ role: 'ADMIN' })
+const ability = defineAbilityFor({ role: 'MEMBER', id: 'user-id' })
+const project = projectSchema.parse({ id: 'project-id', ownerId: 'user-id' })
 
-// const userCanInviteSomeoneElse = ability.can('invite', 'User')
-const userCanDeleteOtherUsers = ability.can('delete', 'User')
-const userCannotDeleteOtherUsers = ability.cannot('delete', 'User')
-
-// console.log(userCanInviteSomeoneElse)
-console.log(userCanDeleteOtherUsers)
-console.log(userCannotDeleteOtherUsers)
+console.log(ability.can('get', 'Billing'))
+console.log(ability.can('create', 'Invite'))
+console.log(ability.can('delete', project))
