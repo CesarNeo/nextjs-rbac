@@ -29,6 +29,7 @@ import {
   transferOrganization,
   updateOrganization,
 } from './routes/orgs'
+import { createProject } from './routes/projects'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -68,6 +69,7 @@ app.register(authenticateWithGithub)
 app.register(getProfile)
 app.register(requestPasswordRecover)
 app.register(resetPassword)
+
 app.register(createOrganization)
 app.register(getMembership)
 app.register(getOrganization)
@@ -75,6 +77,8 @@ app.register(getOrganizations)
 app.register(updateOrganization)
 app.register(shutdownOrganization)
 app.register(transferOrganization)
+
+app.register(createProject)
 
 app
   .listen({ port: env.SERVER_PORT })
