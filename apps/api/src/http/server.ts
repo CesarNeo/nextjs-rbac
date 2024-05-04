@@ -20,7 +20,7 @@ import {
   requestPasswordRecover,
   resetPassword,
 } from './routes/auth'
-import { getMembers } from './routes/members'
+import { getMembers, removeMember, updateMember } from './routes/members'
 import {
   createOrganization,
   getMembership,
@@ -92,6 +92,8 @@ app.register(updateProject)
 app.register(deleteProject)
 
 app.register(getMembers)
+app.register(updateMember)
+app.register(removeMember)
 
 app
   .listen({ port: env.SERVER_PORT })
