@@ -20,6 +20,7 @@ import {
   requestPasswordRecover,
   resetPassword,
 } from './routes/auth'
+import { getOrganizationBilling } from './routes/billing/get-organization-billing'
 import {
   acceptInvite,
   createInvite,
@@ -111,6 +112,8 @@ app.register(createInvite)
 app.register(acceptInvite)
 app.register(rejectInvite)
 app.register(revokeInvite)
+
+app.register(getOrganizationBilling)
 
 app
   .listen({ port: env.SERVER_PORT })
