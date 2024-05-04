@@ -25,6 +25,7 @@ import {
   createInvite,
   getInvite,
   getInvites,
+  getPendingInvites,
   rejectInvite,
   revokeInvite,
 } from './routes/invites'
@@ -105,6 +106,7 @@ app.register(removeMember)
 
 app.register(getInvite)
 app.register(getInvites)
+app.register(getPendingInvites)
 app.register(createInvite)
 app.register(acceptInvite)
 app.register(rejectInvite)
