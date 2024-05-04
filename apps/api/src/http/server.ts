@@ -26,6 +26,7 @@ import {
   getInvite,
   getInvites,
   rejectInvite,
+  revokeInvite,
 } from './routes/invites'
 import { getMembers, removeMember, updateMember } from './routes/members'
 import {
@@ -107,6 +108,7 @@ app.register(getInvites)
 app.register(createInvite)
 app.register(acceptInvite)
 app.register(rejectInvite)
+app.register(revokeInvite)
 
 app
   .listen({ port: env.SERVER_PORT })
