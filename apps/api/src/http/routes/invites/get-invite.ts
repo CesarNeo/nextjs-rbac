@@ -16,7 +16,7 @@ export async function getInvite(app: FastifyInstance) {
         summary: 'Get an invite',
         params: z.object({ inviteId: z.string().uuid() }),
         response: {
-          201: z.object({
+          200: z.object({
             invite: z.object({
               id: z.string().uuid(),
               email: z.string().email(),

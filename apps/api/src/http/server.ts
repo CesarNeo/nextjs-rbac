@@ -20,7 +20,7 @@ import {
   requestPasswordRecover,
   resetPassword,
 } from './routes/auth'
-import { createInvite, getInvite } from './routes/invites'
+import { createInvite, getInvite, getInvites } from './routes/invites'
 import { getMembers, removeMember, updateMember } from './routes/members'
 import {
   createOrganization,
@@ -97,6 +97,7 @@ app.register(updateMember)
 app.register(removeMember)
 
 app.register(getInvite)
+app.register(getInvites)
 app.register(createInvite)
 
 app
