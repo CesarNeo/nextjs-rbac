@@ -20,7 +20,12 @@ import {
   requestPasswordRecover,
   resetPassword,
 } from './routes/auth'
-import { createInvite, getInvite, getInvites } from './routes/invites'
+import {
+  acceptInvite,
+  createInvite,
+  getInvite,
+  getInvites,
+} from './routes/invites'
 import { getMembers, removeMember, updateMember } from './routes/members'
 import {
   createOrganization,
@@ -99,6 +104,7 @@ app.register(removeMember)
 app.register(getInvite)
 app.register(getInvites)
 app.register(createInvite)
+app.register(acceptInvite)
 
 app
   .listen({ port: env.SERVER_PORT })
