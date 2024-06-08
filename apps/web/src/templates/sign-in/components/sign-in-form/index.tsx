@@ -1,33 +1,74 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { type FormEvent, useState, useTransition } from 'react'
 
 import { signInWithEmailAndPassword } from '@/app/auth/sign-in/actions'
 import githubLogoIcon from '@/assets/github-icon.svg'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
 const SignInForm = () => {
-  const [state, formAction, isPending] = useActionState(
-    signInWithEmailAndPassword,
-    null,
-  )
+  const [{ success, message, errors }, setFormState] = useState<{
+    success: boolean
+    message: string | null
+    errors: Record<string, string[]> | null
+  }>({
+    success: false,
+    message: null,
+    errors: null,
+  })
+  const [isPending, startTransition] = useTransition()
+
+  async function handleSignIn(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    startTransition(async () => {
+      const result = await signInWithEmailAndPassword(formData)
+      setFormState(result)
+    })
+  }
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form onSubmit={handleSignIn} className="space-y-4">
+      {success === false && message && (
+        <Alert variant="destructive">
+          <AlertTriangle className="size-4" />
+          <AlertTitle>Sign in failed!</AlertTitle>
+          <AlertDescription>
+            <p>{message}</p>
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input id="email" type="email" name="email" />
+
+        {errors?.email && (
+          <p className="text-xs font-medium text-red-500 dark:text-red-400">
+            {errors.email[0]}
+          </p>
+        )}
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
         <Input id="password" type="password" name="password" />
+
+        {errors?.password && (
+          <p className="text-xs font-medium text-red-500 dark:text-red-400">
+            {errors.password[0]}
+          </p>
+        )}
 
         <Link
           href="/auth/forgot-password"
