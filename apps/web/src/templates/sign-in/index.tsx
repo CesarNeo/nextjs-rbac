@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { signInWithEmailAndPassword } from '@/app/auth/sign-in/actions'
 import githubLogoIcon from '@/assets/github-icon.svg'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,7 +10,7 @@ import { Separator } from '@/components/ui/separator'
 
 const SignInTemplate = () => {
   return (
-    <form className="space-y-4">
+    <form action={signInWithEmailAndPassword} className="space-y-4">
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input id="email" type="email" name="email" />
