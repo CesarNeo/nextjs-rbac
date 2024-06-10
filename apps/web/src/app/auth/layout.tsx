@@ -4,7 +4,9 @@ import type { FC, ReactNode } from 'react'
 import { isAuthenticated } from '@/auth/auth'
 
 const AuthLayout: FC<Readonly<{ children: ReactNode }>> = ({ children }) => {
-  if (isAuthenticated) redirect('/')
+  if (isAuthenticated) {
+    redirect('/')
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
