@@ -1,6 +1,7 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 import { signInWithPassword } from '@/http/sign-in-with-password'
@@ -24,12 +25,15 @@ async function signInWithEmailAndPassword(data: FormData) {
   const { email, password } = schemaParsed.data
 
   try {
-    const result = await signInWithPassword({
+    const { token } = await signInWithPassword({
       email: String(email),
       password: String(password),
     })
 
-    console.log(result)
+    cookies().set('token', token, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    })
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()

@@ -4,6 +4,7 @@ import type { IFormState } from './types'
 
 const useFormState = (
   action: (formData: FormData) => Promise<IFormState>,
+  onSuccess?: () => void | Promise<void>,
   initialState?: IFormState,
 ) => {
   const [formState, setFormState] = useState<IFormState>(
@@ -23,6 +24,11 @@ const useFormState = (
 
     startTransition(async () => {
       const result = await action(formData)
+
+      if (result.success && onSuccess) {
+        await onSuccess()
+      }
+
       setFormState(result)
     })
   }
