@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { signInWithGithub } from '@/http/sign-in-with-github'
 
-export async function GET(request: NextRequest) {
+async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const code = searchParams.get('code')
 
@@ -27,3 +27,5 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.redirect(redirectURL)
 }
+
+export { GET }
