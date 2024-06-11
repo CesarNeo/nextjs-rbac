@@ -9,7 +9,7 @@ async function auth() {
   const token = cookies().get('token')?.value
 
   if (!token) {
-    redirect('/sign-in')
+    redirect('/auth/sign-in')
   }
 
   try {
