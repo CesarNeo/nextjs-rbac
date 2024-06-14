@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 
 import { getProfile } from '@/http/get-profile'
 
-const isAuthenticated = !!cookies().get('token')?.value
+const isAuthenticated = () => !!cookies().get('token')?.value
 
 async function auth() {
   const token = cookies().get('token')?.value

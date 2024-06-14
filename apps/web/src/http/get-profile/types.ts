@@ -1,9 +1,4 @@
-type IUser = {
-  id: string
-  name: string | null
-  email: string
-  avatarUrl: string | null
-}
+import type { IUser } from '@/types/user'
 
 interface IGetProfileResponse {
   user: IUser
