@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import { ability } from '@/auth/auth'
 
+import ThemeSwitcher from '../theme/theme-switcher'
+import { Separator } from '../ui/separator'
 import OrganizationSwitcher from './components/organization-switcher'
 import ProfileButton from './components/profile-button'
 
@@ -23,6 +25,10 @@ const Header = async () => {
       </div>
 
       <div className="flex items-center gap-4">
+        <ThemeSwitcher />
+
+        <Separator orientation="vertical" className="h-5" />
+
         <ProfileButton />
       </div>
     </header>
