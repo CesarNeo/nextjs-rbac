@@ -81,6 +81,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@neo-saas/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@radix-ui/react-avatar':
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
