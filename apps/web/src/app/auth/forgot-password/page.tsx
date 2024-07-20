@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { RoutesPath } from '@/enums/routes-path'
 
 function ForgotPasswordPage() {
   return (
@@ -17,7 +18,7 @@ function ForgotPasswordPage() {
       </Button>
 
       <Button className="w-full" variant="link" asChild size="sm">
-        <Link href="/auth/sign-in">Sign in instead</Link>
+        <Link href={RoutesPath.SIGN_IN}>Sign in instead</Link>
       </Button>
     </form>
   )

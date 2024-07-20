@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { RoutesPath } from '@/enums/routes-path'
 
 function SignUpPage() {
   return (
@@ -39,7 +40,7 @@ function SignUpPage() {
       </Button>
 
       <Button className="w-full" variant="link" asChild size="sm">
-        <Link href="/auth/sign-in">Already registered? Sign in</Link>
+        <Link href={RoutesPath.SIGN_IN}>Already registered? Sign in</Link>
       </Button>
 
       <Separator />
