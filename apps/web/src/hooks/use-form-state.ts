@@ -1,3 +1,5 @@
+'use client'
+
 import { type FormEvent, useState, useTransition } from 'react'
 
 interface IFormState {
