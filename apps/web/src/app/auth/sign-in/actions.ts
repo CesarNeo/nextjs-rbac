@@ -1,9 +1,9 @@
 'use server'
 
 import { HTTPError } from 'ky'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 
+import { saveTokenInCookies } from '@/http/save-token-in-cookies'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
 const signInSchema = z.object({
@@ -27,10 +27,7 @@ export async function signWithEmailAndPassword(data: FormData) {
   try {
     const { token } = await signInWithPassword({ email, password })
 
-    cookies().set('token', token, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    })
+    saveTokenInCookies(token)
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()
