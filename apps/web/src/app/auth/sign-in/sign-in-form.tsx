@@ -4,7 +4,6 @@ import { Separator } from '@radix-ui/react-separator'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { type FormEvent, useState, useTransition } from 'react'
 
 import githubIcon from '@/assets/github-icon.svg'
 import TextError from '@/components/text-error'
@@ -12,33 +11,19 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useFormState } from '@/hooks/use-form-state'
 
 import { signWithEmailAndPassword } from './actions'
 
 function SignInForm() {
-  const [{ success, message, errors }, setFormState] = useState<{
-    success: boolean
-    message: string | null
-    errors: Record<string, string[]> | null
-  }>({
-    success: false,
-    message: null,
-    errors: null,
-  })
-  const [isPending, startTransition] = useTransition()
-
-  function handleSignInSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-
-    startTransition(async () => {
-      const result = await signWithEmailAndPassword(formData)
-      setFormState(result)
-    })
-  }
+  const {
+    formState: { success, message, errors },
+    handleSubmitAction,
+    isPending,
+  } = useFormState({ action: signWithEmailAndPassword })
 
   return (
-    <form onSubmit={handleSignInSubmit} className="space-y-4">
+    <form onSubmit={handleSubmitAction} className="space-y-4">
       {!success && message && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
