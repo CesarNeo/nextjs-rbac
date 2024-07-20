@@ -4,6 +4,7 @@ import { Separator } from '@radix-ui/react-separator'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import githubIcon from '@/assets/github-icon.svg'
 import TextError from '@/components/text-error'
@@ -16,11 +17,16 @@ import { useFormState } from '@/hooks/use-form-state'
 import { signWithEmailAndPassword } from './actions'
 
 function SignInForm() {
+  const router = useRouter()
+
   const {
     formState: { success, message, errors },
     handleSubmitAction,
     isPending,
-  } = useFormState({ action: signWithEmailAndPassword })
+  } = useFormState({
+    action: signWithEmailAndPassword,
+    onSuccess: () => router.push('/'),
+  })
 
   return (
     <form onSubmit={handleSubmitAction} className="space-y-4">

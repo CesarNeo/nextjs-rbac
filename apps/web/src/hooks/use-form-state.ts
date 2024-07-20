@@ -8,6 +8,7 @@ interface IFormState {
 
 interface IUseFormState {
   action: (formData: FormData) => Promise<IFormState>
+  onSuccess?: () => Promise<void> | void
   initialState?: IFormState
 }
 
@@ -19,6 +20,7 @@ const DEFAULT_INITIAL_STATE: IFormState = {
 
 export function useFormState({
   action,
+  onSuccess,
   initialState = DEFAULT_INITIAL_STATE,
 }: IUseFormState) {
   const [formState, setFormState] = useState<IFormState>(initialState)
@@ -31,6 +33,10 @@ export function useFormState({
     startTransition(async () => {
       const result = await action(formData)
       setFormState(result)
+
+      if (result.success && typeof onSuccess === 'function') {
+        await onSuccess()
+      }
     })
   }
 
