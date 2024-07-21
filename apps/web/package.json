@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neo-saas/auth": "workspace:*",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -20,12 +21,12 @@
     "ky": "^1.4.0",
     "lucide-react": "^0.411.0",
     "next": "15.0.0-rc.0",
+    "next-themes": "^0.3.0",
     "react": "19.0.0-rc-f994737d14-20240522",
     "react-dom": "19.0.0-rc-f994737d14-20240522",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4",
-    "@neo-saas/auth": "workspace:*"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@neo-saas/eslint-config": "workspace:*",
