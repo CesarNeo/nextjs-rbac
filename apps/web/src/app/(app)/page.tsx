@@ -2,9 +2,11 @@ import Header from '@/components/header'
 
 async function Home() {
   return (
-    <div className="py-4">
+    <div className="space-y-4 py-4">
       <Header />
-      <main></main>
+      <main className="mx-auto w-full max-w-[75rem] space-y-4">
+        <p className="text-sm text-muted-foreground">Select an organization</p>
+      </main>
     </div>
   )
 }

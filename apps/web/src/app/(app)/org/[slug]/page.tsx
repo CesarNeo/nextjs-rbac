@@ -2,9 +2,9 @@ import Header from '@/components/header'
 
 function OrganizationPage() {
   return (
-    <div className="py-4">
+    <div className="space-y-4 py-4">
       <Header />
-      <main></main>
+      <main className="mx-auto w-full max-w-[75rem]">Projetos</main>
     </div>
   )
 }
