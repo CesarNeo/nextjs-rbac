@@ -1,3 +1,5 @@
+import { NextTags } from '@/enums/next-tags'
+
 import { api } from './api-client'
 
 interface GetOrganizationsResponse {
@@ -10,7 +12,9 @@ interface GetOrganizationsResponse {
 }
 
 export async function getOrganizations() {
-  const result = await api.get('organizations').json<GetOrganizationsResponse>()
+  const result = await api
+    .get('organizations', { next: { tags: [NextTags.ORGANIZATIONS] } })
+    .json<GetOrganizationsResponse>()
 
   return result
 }

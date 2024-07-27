@@ -10,15 +10,31 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { createOrganizationAction } from './actions'
+import {
+  createOrganizationAction,
+  type OrganizationSchemaType,
+  updateOrganizationAction,
+} from './actions'
 
-function OrganizationForm() {
+interface IOrganizationFormProps {
+  isUpdating?: boolean
+  initialData?: OrganizationSchemaType
+}
+
+function OrganizationForm({
+  isUpdating = false,
+  initialData,
+}: IOrganizationFormProps) {
+  const formAction = isUpdating
+    ? updateOrganizationAction
+    : createOrganizationAction
+
   const {
     formState: { success, message, errors },
     handleSubmitAction,
     isPending,
   } = useFormState({
-    action: createOrganizationAction,
+    action: formAction,
   })
 
   return (
@@ -36,7 +52,7 @@ function OrganizationForm() {
 
       <div className="space-y-1">
         <Label htmlFor="name">Organization name</Label>
-        <Input id="name" name="name" />
+        <Input id="name" name="name" defaultValue={initialData?.name} />
 
         {errors?.name && <TextError>{errors.name[0]}</TextError>}
       </div>
@@ -48,6 +64,7 @@ function OrganizationForm() {
           name="domain"
           inputMode="url"
           placeholder="example.com"
+          defaultValue={initialData?.domain ?? undefined}
         />
 
         {errors?.domain && <TextError>{errors.domain[0]}</TextError>}
@@ -58,6 +75,7 @@ function OrganizationForm() {
           <Checkbox
             name="shouldAttachUsersByDomain"
             id="shouldAttachUsersByDomain"
+            defaultChecked={initialData?.shouldAttachUsersByDomain}
           />
           <label htmlFor="shouldAttachUsersByDomain" className="space-y-1">
             <span className="text-sm font-medium leading-none">

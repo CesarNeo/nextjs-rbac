@@ -1,9 +1,13 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
+import { getCurrentOrganizationSlug } from '@/auth/auth'
+import { NextTags } from '@/enums/next-tags'
 import { createOrganization } from '@/http/create-organization'
+import { updateOrganization } from '@/http/update-organization'
 
 const organizationSchema = z
   .object({
@@ -44,6 +48,8 @@ const organizationSchema = z
     },
   )
 
+export type OrganizationSchemaType = z.infer<typeof organizationSchema>
+
 export async function createOrganizationAction(data: FormData) {
   const schemaValidate = organizationSchema.safeParse(Object.fromEntries(data))
 
@@ -57,6 +63,48 @@ export async function createOrganizationAction(data: FormData) {
 
   try {
     await createOrganization({ name, domain, shouldAttachUsersByDomain })
+
+    revalidateTag(NextTags.ORGANIZATIONS)
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+
+      return { success: false, message, errors: null }
+    }
+
+    console.error(error)
+
+    return {
+      success: false,
+      message: 'An unexpected error occurred',
+      errors: null,
+    }
+  }
+
+  return { success: true, message: null, errors: null }
+}
+
+export async function updateOrganizationAction(data: FormData) {
+  const currentOrganizationSlug = getCurrentOrganizationSlug()
+  const schemaValidate = organizationSchema.safeParse(Object.fromEntries(data))
+
+  if (!schemaValidate.success) {
+    const errors = schemaValidate.error.flatten().fieldErrors
+
+    return { success: false, message: null, errors }
+  }
+
+  const { name, domain, shouldAttachUsersByDomain } = schemaValidate.data
+
+  try {
+    await updateOrganization({
+      slug: currentOrganizationSlug!,
+      name,
+      domain,
+      shouldAttachUsersByDomain,
+    })
+
+    revalidateTag(NextTags.ORGANIZATIONS)
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()
