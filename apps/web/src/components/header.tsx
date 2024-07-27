@@ -13,7 +13,7 @@ async function Header() {
   const permissions = await ability()
 
   return (
-    <header className="mx-auto flex max-w-[75rem] items-center justify-between border-b pb-2">
+    <header className="mx-auto flex max-w-[75rem] items-center justify-between">
       <div className="flex items-center gap-3">
         <Link href="/">
           <h1 className="text-2xl font-bold">NeoSaaS</h1>
