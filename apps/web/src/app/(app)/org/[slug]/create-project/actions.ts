@@ -6,8 +6,6 @@ import { z } from 'zod'
 import { getCurrentOrganizationSlug } from '@/auth/auth'
 import { createProject } from '@/http/create-project'
 
-// import { createProject } from '@/http/create-project'
-
 const projectSchema = z.object({
   name: z.string().min(4, { message: 'Project name is too short' }),
   description: z.string(),

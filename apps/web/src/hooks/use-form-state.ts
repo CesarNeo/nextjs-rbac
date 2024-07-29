@@ -1,6 +1,7 @@
 'use client'
 
 import { type FormEvent, useState, useTransition } from 'react'
+import { requestFormReset } from 'react-dom'
 
 interface IFormState {
   success: boolean
@@ -40,6 +41,8 @@ export function useFormState({
         await onSuccess()
       }
     })
+
+    requestFormReset(event.currentTarget)
   }
 
   return { formState, isPending, handleSubmitAction }
