@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ComponentProps } from 'react'
 
-interface INavLinkProps extends ComponentProps<typeof Link> {}
+export interface INavLinkProps extends ComponentProps<typeof Link> {}
 
 function NavLink({ href, ...props }: INavLinkProps) {
   const pathname = usePathname()
