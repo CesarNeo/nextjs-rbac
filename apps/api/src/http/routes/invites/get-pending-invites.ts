@@ -18,7 +18,7 @@ export async function getPendingInvites(app: FastifyInstance) {
         schema: {
           tags: ['Invite'],
           summary: 'Get all user pending invites',
-          params: z.object({ inviteId: z.string().uuid() }),
+          // params: z.object({ inviteId: z.string().uuid() }),
           response: {
             200: z.object({
               invites: z.array(
@@ -42,7 +42,7 @@ export async function getPendingInvites(app: FastifyInstance) {
         },
       },
       async (request) => {
-        const { inviteId } = request.params
+        // const { inviteId } = request.params
         const userId = await request.getCurrentUserId()
 
         const user = await prisma.user.findUnique({ where: { id: userId } })
@@ -52,7 +52,7 @@ export async function getPendingInvites(app: FastifyInstance) {
         }
 
         const invites = await prisma.invite.findMany({
-          where: { id: inviteId, email: user.email },
+          where: { email: user.email },
           select: {
             id: true,
             email: true,

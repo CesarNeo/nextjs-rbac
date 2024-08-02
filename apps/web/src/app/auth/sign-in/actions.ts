@@ -1,8 +1,10 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
+import { acceptInvite } from '@/http/accept-invite'
 import { saveTokenInCookies } from '@/http/save-token-in-cookies'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
@@ -28,6 +30,15 @@ export async function signWithEmailAndPassword(data: FormData) {
     const { token } = await signInWithPassword({ email, password })
 
     saveTokenInCookies(token)
+
+    const inviteId = cookies().get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await acceptInvite(inviteId)
+        cookies().delete('inviteId')
+      } catch (error) {}
+    }
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()

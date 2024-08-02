@@ -4,7 +4,7 @@ import { Separator } from '@radix-ui/react-separator'
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import githubIcon from '@/assets/github-icon.svg'
 import TextError from '@/components/text-error'
@@ -19,6 +19,7 @@ import { signWithEmailAndPassword } from './actions'
 
 function SignInForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const {
     formState: { success, message, errors },
@@ -45,7 +46,12 @@ function SignInForm() {
 
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
-          <Input id="email" type="email" name="email" />
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            defaultValue={searchParams.get('email') ?? ''}
+          />
 
           {errors?.email && <TextError>{errors.email[0]}</TextError>}
         </div>

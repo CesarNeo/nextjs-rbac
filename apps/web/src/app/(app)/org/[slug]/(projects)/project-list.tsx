@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import { ArrowRight } from 'lucide-react'
 
 import { getCurrentOrganizationSlug } from '@/auth/auth'
@@ -13,8 +12,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { getProjects } from '@/http/get-projects'
-
-dayjs.extend(relativeTime)
 
 async function ProjectList() {
   const orgSlug = getCurrentOrganizationSlug()

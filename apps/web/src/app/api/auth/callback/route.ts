@@ -1,5 +1,7 @@
+import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 
+import { acceptInvite } from '@/http/accept-invite'
 import { saveTokenInCookies } from '@/http/save-token-in-cookies'
 import { signInWithGithub } from '@/http/sign-in-with-github'
 
@@ -17,6 +19,14 @@ export async function GET(request: NextRequest) {
   const { token } = await signInWithGithub({ code })
 
   saveTokenInCookies(token)
+  const inviteId = cookies().get('inviteId')?.value
+
+  if (inviteId) {
+    try {
+      await acceptInvite(inviteId)
+      cookies().delete('inviteId')
+    } catch (error) {}
+  }
 
   const redirectUrl = request.nextUrl.clone()
   redirectUrl.pathname = '/'
