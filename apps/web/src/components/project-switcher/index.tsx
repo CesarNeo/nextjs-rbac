@@ -1,13 +1,15 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { ChevronsUpDown, Loader2, PlusCircle } from 'lucide-react'
+import { ChevronsUpDown, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
+import { QueryKeysEnum } from '@/enums/query-keys'
+import { RoutesPath } from '@/enums/routes-path'
 import { getProjects } from '@/http/get-projects'
 
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +18,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import { Skeleton } from './ui/skeleton'
+} from '../ui/dropdown-menu'
+import { Skeleton } from '../ui/skeleton'
+import ProjectSkeleton from './components/project-skeleton'
 
 function ProjectSwitcher() {
   const { slug: organizationSlug, projectSlug } = useParams<{
@@ -25,15 +28,16 @@ function ProjectSwitcher() {
     projectSlug: string
   }>()
   const { data: projectsData, isLoading } = useQuery({
-    queryKey: [organizationSlug, 'projects'],
+    queryKey: [organizationSlug, QueryKeysEnum.PROJECTS],
     queryFn: () => getProjects(organizationSlug),
     enabled: Boolean(organizationSlug),
   })
 
-  const currentProject =
-    projectsData && projectSlug
-      ? projectsData.projects.find((project) => project.slug === projectSlug)
-      : null
+  const hasProjectsAndSlug = projectsData && projectSlug
+
+  const currentProject = hasProjectsAndSlug
+    ? projectsData.projects.find((project) => project.slug === projectSlug)
+    : null
 
   return (
     <DropdownMenu>
@@ -76,7 +80,11 @@ function ProjectSwitcher() {
           <DropdownMenuLabel>Projects</DropdownMenuLabel>
 
           {isLoading ? (
-            <Loader2 className="mx-auto mb-2 size-6 animate-spin" />
+            <>
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+              <ProjectSkeleton />
+            </>
           ) : (
             <>
               {projectsData?.projects.map((project) => (
@@ -102,7 +110,9 @@ function ProjectSwitcher() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href={`/org/${organizationSlug}/create-project`}>
+          <Link
+            href={`/org/${organizationSlug.concat(RoutesPath.CREATE_PROJECT)}`}
+          >
             <PlusCircle className="mr-2 size-4" />
             Create new
           </Link>
