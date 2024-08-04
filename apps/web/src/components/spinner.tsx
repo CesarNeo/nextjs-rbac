@@ -1,12 +1,13 @@
-import { Loader2 } from 'lucide-react'
-import type { ComponentProps } from 'react'
-
 import { cn } from '@/lib/utils'
 
-interface ISpinnerProps extends ComponentProps<'svg'> {}
+import Icon, { type IIconProps } from './icon'
 
-function Spinner({ className, ...props }: ISpinnerProps) {
-  return <Loader2 {...props} className={cn('size-4 animate-spin', className)} />
+interface ISpinnerProps extends IIconProps {}
+
+function Spinner({ className, name = 'loader', ...props }: ISpinnerProps) {
+  return (
+    <Icon {...props} name={name} className={cn('animate-spin', className)} />
+  )
 }
 
 export default Spinner

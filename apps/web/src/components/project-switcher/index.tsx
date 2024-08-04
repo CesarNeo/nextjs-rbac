@@ -10,15 +10,7 @@ import { RoutesPath } from '@/enums/routes-path'
 import { getProjects } from '@/http/get-projects'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+import DropdownMenu from '../ui/dropdown-menu'
 import { Skeleton } from '../ui/skeleton'
 import ProjectSkeleton from './components/project-skeleton'
 
@@ -40,8 +32,8 @@ function ProjectSwitcher() {
     : null
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex w-[10.5rem] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary">
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="flex w-[10.5rem] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary">
         {isLoading ? (
           <>
             <Skeleton className="size-4 shrink-0 rounded-full" />
@@ -69,15 +61,15 @@ function ProjectSwitcher() {
             <ChevronsUpDown className="ml-auto size-4 shrink-0 text-muted-foreground" />
           </>
         )}
-      </DropdownMenuTrigger>
+      </DropdownMenu.Trigger>
 
-      <DropdownMenuContent
+      <DropdownMenu.Content
         align="end"
         alignOffset={-16}
         className="w-[12.5rem]"
       >
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Projects</DropdownMenuLabel>
+        <DropdownMenu.Group>
+          <DropdownMenu.Label>Projects</DropdownMenu.Label>
 
           {isLoading ? (
             <>
@@ -88,7 +80,7 @@ function ProjectSwitcher() {
           ) : (
             <>
               {projectsData?.projects.map((project) => (
-                <DropdownMenuItem key={project.id} asChild>
+                <DropdownMenu.Item key={project.id} asChild>
                   <Link
                     href={`/org/${organizationSlug}/project/${project.slug}`}
                   >
@@ -101,24 +93,24 @@ function ProjectSwitcher() {
 
                     <span className="line-clamp-1">{project.name}</span>
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenu.Item>
               ))}
             </>
           )}
-        </DropdownMenuGroup>
+        </DropdownMenu.Group>
 
-        <DropdownMenuSeparator />
+        <DropdownMenu.Separator />
 
-        <DropdownMenuItem asChild>
+        <DropdownMenu.Item asChild>
           <Link
             href={`/org/${organizationSlug.concat(RoutesPath.CREATE_PROJECT)}`}
           >
             <PlusCircle className="mr-2 size-4" />
             Create new
           </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   )
 }
 
