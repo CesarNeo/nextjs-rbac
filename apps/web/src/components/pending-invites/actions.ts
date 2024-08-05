@@ -6,14 +6,19 @@ import { NextTags } from '@/enums/next-tags'
 import { acceptInvite } from '@/http/accept-invite'
 import { rejectInvite } from '@/http/reject-invite'
 
-export async function acceptInviteAction(inviteId: string) {
-  await acceptInvite(inviteId)
+import { type IAcceptOrRejectInviteProps, InviteStatusEnum } from './types'
 
-  revalidateTag(NextTags.ORGANIZATIONS)
-}
+export async function acceptInviteOrRejectAction({
+  inviteId,
+  type,
+}: IAcceptOrRejectInviteProps) {
+  if (type === InviteStatusEnum.ACCEPT) {
+    await acceptInvite(inviteId)
+  }
 
-export async function rejectInviteAction(inviteId: string) {
-  await rejectInvite(inviteId)
+  if (type === InviteStatusEnum.REJECT) {
+    await rejectInvite(inviteId)
+  }
 
   revalidateTag(NextTags.ORGANIZATIONS)
 }

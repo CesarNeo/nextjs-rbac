@@ -3,15 +3,17 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { Check, UserPlus2, X } from 'lucide-react'
 import { useState } from 'react'
 
+import { QueryKeysEnum } from '@/enums/query-keys'
 import { getPendingInvites } from '@/http/get-pending-invites'
 
+import Icon from '../icon'
 import { Button } from '../ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Skeleton } from '../ui/skeleton'
-import { acceptInviteAction, rejectInviteAction } from './actions'
+import Popover from '../ui/popover'
+import { acceptInviteOrRejectAction } from './actions'
+import InvitesSkeleton from './components/invites-skeleton'
+import { type IAcceptOrRejectInviteProps, InviteStatusEnum } from './types'
 
 dayjs.extend(relativeTime)
 
@@ -21,46 +23,38 @@ function PendingInvites() {
   const queryClient = useQueryClient()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pending-invites'],
+    queryKey: [QueryKeysEnum.PENDING_INVITES],
     queryFn: getPendingInvites,
     enabled: isOpenState,
   })
 
-  async function handleAcceptInvite(inviteId: string) {
-    await acceptInviteAction(inviteId)
+  const totalPendingInvites = data?.invites.length ?? 0
 
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
-  }
+  async function handleAcceptOrRejectInvite({
+    inviteId,
+    type,
+  }: IAcceptOrRejectInviteProps) {
+    await acceptInviteOrRejectAction({ inviteId, type })
 
-  async function handleRejectInvite(inviteId: string) {
-    await rejectInviteAction(inviteId)
-
-    queryClient.invalidateQueries({ queryKey: ['pending-invites'] })
+    queryClient.invalidateQueries({ queryKey: [QueryKeysEnum.PENDING_INVITES] })
   }
 
   return (
-    <Popover open={isOpenState} onOpenChange={setIsOpenState}>
-      <PopoverTrigger asChild>
+    <Popover.Root open={isOpenState} onOpenChange={setIsOpenState}>
+      <Popover.Trigger asChild>
         <Button size="icon" variant="ghost">
-          <UserPlus2 className="size-4" />
+          <Icon name="user-plus" />
           <span className="sr-only">Pending invites</span>
         </Button>
-      </PopoverTrigger>
+      </Popover.Trigger>
 
-      <PopoverContent className="w-80 space-y-2">
+      <Popover.Content className="w-80 space-y-2">
         <span className="block text-sm font-medium">
-          Pending invites ({data?.invites.length ?? 0})
+          Pending invites ({totalPendingInvites})
         </span>
 
         {isLoading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-full" />
-
-            <div className="flex gap-1">
-              <Skeleton className="h-9 w-full" />
-              <Skeleton className="h-9 w-full" />
-            </div>
-          </div>
+          <InvitesSkeleton />
         ) : (
           <>
             {data?.invites.map((invite) => (
@@ -80,18 +74,28 @@ function PendingInvites() {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => handleAcceptInvite(invite.id)}
+                    onClick={() =>
+                      handleAcceptOrRejectInvite({
+                        inviteId: invite.id,
+                        type: InviteStatusEnum.ACCEPT,
+                      })
+                    }
                   >
-                    <Check className="mr-1.5 size-3" />
+                    <Icon name="check" className="mr-1.5 size-3" />
                     Accept
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     className="text-muted-foreground"
-                    onClick={() => handleRejectInvite(invite.id)}
+                    onClick={() =>
+                      handleAcceptOrRejectInvite({
+                        inviteId: invite.id,
+                        type: InviteStatusEnum.REJECT,
+                      })
+                    }
                   >
-                    <X className="mr-1.5 size-3" />
+                    <Icon name="x" className="mr-1.5 size-3" />
                     Reject
                   </Button>
                 </div>
@@ -99,8 +103,8 @@ function PendingInvites() {
             ))}
           </>
         )}
-      </PopoverContent>
-    </Popover>
+      </Popover.Content>
+    </Popover.Root>
   )
 }
 
