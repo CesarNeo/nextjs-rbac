@@ -115,6 +115,4 @@ app.register(revokeInvite)
 
 app.register(getOrganizationBilling)
 
-app
-  .listen({ port: env.SERVER_PORT })
-  .then(() => console.log('HTTP server running!!'))
+app.listen({ port: env.PORT }).then(() => console.log('HTTP server running!!'))
