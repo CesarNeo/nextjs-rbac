@@ -1,14 +1,10 @@
 import { NextTags } from '@/enums/next-tags'
+import type { IOrganizations } from '@/types'
 
 import { api } from './api-client'
 
 interface GetOrganizationsResponse {
-  organizations: {
-    id: number
-    name: string
-    slug: string
-    avatarUrl: string | null
-  }[]
+  organizations: IOrganizations[]
 }
 
 export async function getOrganizations() {

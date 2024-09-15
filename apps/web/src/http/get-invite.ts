@@ -1,22 +1,9 @@
-import type { Role } from '@neo-saas/auth'
+import type { IInvite } from '@/types'
 
 import { api } from './api-client'
 
 interface GetInviteResponse {
-  invite: {
-    id: string
-    role: Role
-    email: string
-    organization: {
-      name: string
-    }
-    author: {
-      id: string
-      name: string | null
-      avatarUrl: string | null
-    } | null
-    createdAt: string
-  }
+  invite: IInvite
 }
 
 export async function getInvite(inviteId: string) {

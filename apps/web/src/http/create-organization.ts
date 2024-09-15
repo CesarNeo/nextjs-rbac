@@ -6,13 +6,11 @@ interface ICreateOrganizationRequest {
   shouldAttachUsersByDomain: boolean
 }
 
-type CreateOrganizationResponseType = void
-
 export async function createOrganization({
   name,
   domain,
   shouldAttachUsersByDomain,
-}: ICreateOrganizationRequest): Promise<CreateOrganizationResponseType> {
+}: ICreateOrganizationRequest) {
   await api.post('organizations', {
     json: { name, domain, shouldAttachUsersByDomain },
   })

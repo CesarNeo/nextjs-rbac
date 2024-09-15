@@ -2,16 +2,17 @@ import { defineAbilityFor } from '@neo-saas/auth'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { CookiesKeysEnum } from '@/enums'
 import { RoutesPath } from '@/enums/routes-path'
 import { getMembership } from '@/http/get-membership'
 import { getProfile } from '@/http/get-profile'
 
 export function isAuthenticated() {
-  return Boolean(cookies().get('token')?.value)
+  return Boolean(cookies().get(CookiesKeysEnum.TOKEN)?.value)
 }
 
 export async function auth() {
-  const token = cookies().get('token')?.value
+  const token = cookies().get(CookiesKeysEnum.TOKEN)?.value
 
   if (!token) {
     return redirect(RoutesPath.SIGN_IN)
@@ -27,7 +28,7 @@ export async function auth() {
 }
 
 export function getCurrentOrganizationSlug() {
-  return cookies().get('org')?.value ?? null
+  return cookies().get(CookiesKeysEnum.ORGANIZATION)?.value ?? null
 }
 
 export async function getCurrentMembership() {
@@ -49,10 +50,7 @@ export async function ability() {
   }
 
   const { role, userId } = membership
-  const ability = defineAbilityFor({
-    id: userId,
-    role,
-  })
+  const ability = defineAbilityFor({ id: userId, role })
 
   return ability
 }

@@ -1,16 +1,9 @@
-import type { Role } from '@neo-saas/auth'
+import type { IMember } from '@/types'
 
 import { api } from './api-client'
 
 interface IGetMembersResponse {
-  members: {
-    id: string
-    userId: string
-    role: Role
-    name: string | null
-    email: string
-    avatarUrl: string | null
-  }[]
+  members: IMember[]
 }
 
 export async function getMembers(slug: string) {

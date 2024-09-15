@@ -1,19 +1,9 @@
+import type { IBilling } from '@/types'
+
 import { api } from './api-client'
 
 interface IGetBillingResponse {
-  billing: {
-    seats: {
-      amount: number
-      unit: number
-      price: number
-    }
-    projects: {
-      amount: number
-      unit: number
-      price: number
-    }
-    total: number
-  }
+  billing: IBilling
 }
 
 export async function getBilling(slug: string) {

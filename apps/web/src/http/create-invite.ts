@@ -8,13 +8,11 @@ interface ICreateInviteRequest {
   role: Role
 }
 
-type CreateInviteResponseType = void
-
 export async function createInvite({
   organizationSlug,
   email,
   role,
-}: ICreateInviteRequest): Promise<CreateInviteResponseType> {
+}: ICreateInviteRequest) {
   await api.post(`organizations/${organizationSlug}/invites`, {
     json: { email, role },
   })

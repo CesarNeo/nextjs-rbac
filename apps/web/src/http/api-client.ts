@@ -3,6 +3,8 @@ import { getCookie } from 'cookies-next'
 import type { CookiesFn } from 'cookies-next/lib/types'
 import ky from 'ky'
 
+import { CookiesKeysEnum } from '@/enums'
+
 export const api = ky.create({
   prefixUrl: env.NEXT_PUBLIC_API_URL,
   hooks: {
@@ -15,7 +17,7 @@ export const api = ky.create({
           cookieStore = serverCookies
         }
 
-        const token = getCookie('token', { cookies: cookieStore })
+        const token = getCookie(CookiesKeysEnum.TOKEN, { cookies: cookieStore })
 
         if (token) {
           request.headers.set('Authorization', 'Bearer '.concat(token))
